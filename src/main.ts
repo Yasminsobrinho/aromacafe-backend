@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+﻿import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import dns from 'node:dns';
@@ -9,7 +9,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  // Padrão das rotas: o Angular já chama /api/foods e /api/drinks
+  // PadrÃ£o das rotas: o Angular jÃ¡ chama /api/foods e /api/drinks
   app.setGlobalPrefix('api');
 
   // CORS: libera o Angular (ng serve roda em localhost:4200)
@@ -27,11 +27,12 @@ async function bootstrap() {
     }),
   );
 
-  // Documentação Swagger em /docs
+  // DocumentaÃ§Ã£o Swagger em /docs
   const config = new DocumentBuilder()
-    .setTitle('AromaCafé API')
+    .setTitle('AromaCafÃ© API')
     .setDescription('Contrato das APIs consumidas pelo frontend Angular')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, config));
 
