@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service.js';
+﻿import { Controller, Get } from '@nestjs/common';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-@Controller()
+@ApiTags('Health')
+@Controller('health') // rota final: /api/health
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @ApiOperation({ summary: 'Verifica se a API está no ar' })
+  @ApiOkResponse({ schema: { example: { status: 'ok' } } })
+  check() {
+    return { status: 'ok' };
   }
 }
