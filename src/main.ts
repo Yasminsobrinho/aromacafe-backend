@@ -5,11 +5,12 @@ import dns from 'node:dns';
 import { AppModule } from './app.module.js';
 
 async function bootstrap() {
+  // Ajuste de DNS para o MongoDB Atlas (mongodb+srv) resolver em qualquer rede
   dns.setServers(['1.1.1.1', '8.8.8.8']);
 
   const app = await NestFactory.create(AppModule);
 
-  // PadrÃ£o das rotas: o Angular jÃ¡ chama /api/foods e /api/drinks
+  // Padrão das rotas: todas começam com /api (o Angular já chama /api/foods e /api/drinks)
   app.setGlobalPrefix('api');
 
   // CORS: libera o Angular (ng serve roda em localhost:4200)
@@ -18,7 +19,7 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   });
 
-  // Valida os DTOs e recusa campos desconhecidos
+  // Valida os DTOs e recusa campos que não existem no contrato
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -27,9 +28,9 @@ async function bootstrap() {
     }),
   );
 
-  // DocumentaÃ§Ã£o Swagger em /docs
+  // Documentação Swagger em /docs (contrato das APIs)
   const config = new DocumentBuilder()
-    .setTitle('AromaCafÃ© API')
+    .setTitle('AromaCafé API')
     .setDescription('Contrato das APIs consumidas pelo frontend Angular')
     .setVersion('1.0')
     .addBearerAuth()
