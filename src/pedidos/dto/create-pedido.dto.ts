@@ -1,3 +1,4 @@
+
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
@@ -5,7 +6,9 @@ import {
   IsArray,
   IsEmail,
   IsEnum,
+  IsIn,
   IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -16,15 +19,13 @@ import {
 } from 'class-validator';
 
 export class ItemPedidoDto {
-  @ApiProperty({ example: 'Brownie' })
-  @IsString()
-  @IsNotEmpty()
-  nome: string;
+  @ApiProperty({ example: '507f1f77bcf86cd799439011' })
+  @IsMongoId()
+  produtoId: string;
 
-  @ApiProperty({ example: 7 })
-  @IsNumber()
-  @Min(0)
-  preco: number;
+  @ApiProperty({ enum: ['food', 'drink'] })
+  @IsIn(['food', 'drink'])
+  tipo: 'food' | 'drink';
 
   @ApiProperty({ example: 2 })
   @IsInt()
@@ -76,24 +77,18 @@ export class CreatePedidoDto {
   @IsEnum(['Cartão', 'Dinheiro', 'Pix'])
   formaPagamento: string;
 
-  // Só o tipo do cartão. NUNCA envie número, validade ou CVV.
   @ApiPropertyOptional({ enum: ['credito', 'debito'] })
   @IsOptional()
-  @IsString()
+  @IsIn(['credito', 'debito'])
   tipoCartao?: string;
 
   @ApiPropertyOptional({
-    description: 'Valor com que o cliente vai pagar (para troco)',
+    description: 'Valor com que o cliente vai pagar, para troco',
   })
   @IsOptional()
   @IsNumber()
-  valorTroco?: number;
-
-  @ApiPropertyOptional({ example: 0 })
-  @IsOptional()
-  @IsNumber()
   @Min(0)
-  desconto?: number;
+  valorTroco?: number;
 
   @ApiProperty({ type: [ItemPedidoDto] })
   @IsArray()

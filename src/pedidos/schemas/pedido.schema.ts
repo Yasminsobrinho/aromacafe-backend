@@ -1,3 +1,4 @@
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import type { HydratedDocument } from 'mongoose';
 
@@ -19,10 +20,22 @@ export class Pedido {
   };
 
   @Prop({
-    type: [{ nome: String, preco: Number, quantidade: Number }],
+    type: [{
+      produtoId: String,
+      tipo: String,
+      nome: String,
+      preco: Number,
+      quantidade: Number,
+    }],
     required: true,
   })
-  itens: { nome: string; preco: number; quantidade: number }[];
+  itens: {
+    produtoId: string;
+    tipo: string;
+    nome: string;
+    preco: number;
+    quantidade: number;
+  }[];
 
   @Prop({ required: true })
   formaPagamento: string;
