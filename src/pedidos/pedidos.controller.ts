@@ -10,7 +10,7 @@ import { CreatePedidoDto } from './dto/create-pedido.dto.js';
 import { PedidoCriadoDto } from './dto/pedido-response.dto.js';
 
 @ApiTags('Pedidos')
-@Controller('pedidos') // rota final: /api/pedidos
+@Controller(['pedidos', 'orders'])
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
